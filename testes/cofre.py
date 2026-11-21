@@ -1,4 +1,8 @@
+import json
 from argon2.low_level import Type, hash_secret_raw #para usar a função de hash do Argon2
+from pathlib import Path
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
 
 #aqui vou pegar minha senha e transformar ela em unica e deixar no jeitinho que o AES
 #pode usar e assim virar de fato a chave de tudo
@@ -18,13 +22,24 @@ def gerar_chave(senha_mestre, salt):
 
     return chave
 
+def abrir_cofre(senha_mestre):
+    arquivo = Path(__file__).with_name("credenciais_teste.bin")
+
+    with arquivo.open("rb") as f:
+        salt = f.read(16)
+        nonce = f.read(12)
+        cifrado = f.read()
+
+    chave = gerar_chave(senha_mestre, salt)
+    dados = AESGCM(chave).decrypt(nonce, cifrado, None)
+
 if __name__ == "__main__":
     from getpass import getpass
     from pathlib import Path
     from cryptography.exceptions import InvalidTag
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-    arquivo = Path(__file__).with_name("cofre_teste.bin")
+    arquivo = Path(__file__).with_name("credenciais_teste.bin")
 
     with arquivo.open("rb") as f:
         salt = f.read(16)
@@ -35,7 +50,9 @@ if __name__ == "__main__":
     chave = gerar_chave(senha_mestre, salt)
 
     try:
-        mensagem = AESGCM(chave).decrypt(nonce, cifrado, None)
-        print("Mensagem recuperada:", mensagem.decode("utf-8"))
+        dados = AESGCM(chave).decrypt(nonce, cifrado, None)
+        # Bytes → texto JSON → dicionário
+        credenciais = json.loads(dados.decode("utf-8"))
+        print("Login recuperado:", credenciais["GitHub"]["login"])
     except InvalidTag:
         print("Não foi possível abrir: senha incorreta ou arquivo alterado.")
