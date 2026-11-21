@@ -2,6 +2,8 @@ from datetime import datetime, timedelta #para mexer nas datas
 from getpass import getpass #para digitar as senhas sem mostrar
 from menu import exibir_menu #importando o menu
 from time import sleep #para dar uma pausa no programa
+from cryptography.exceptions import InvalidTag
+from cofre import abrir_cofre #para abrir o cofre
 
 credenciais ={}
 
@@ -38,8 +40,24 @@ while True:
         continue
 
     elif opcao == "2":
+        senha_mestra = getpass("Digite a senha mestra para abrir o cofre: ")
+
+        try:
+            contas_salvas = abrir_cofre(senha_mestra)
+
+        except InvalidTag:
+            print("Não foi possível abrir: senha incorreta ou arquivo alterado.")
+            sleep(2) #pausa de 2 segundos
+            continue
+
+        except FileNotFoundError:
+            print("Arquivo de credenciais não encontrado.")
+            sleep(2) #pausa de 2 segundos
+            continue
+
         for i in credenciais.keys():
             print(i)
+
         busca = input("Digite o nome do app ou sistema que deseja buscar: ")
         if busca in credenciais:
             #val_e = int(credenciais[busca]['data_c'][0:1])

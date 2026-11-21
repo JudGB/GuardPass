@@ -1,6 +1,6 @@
 import json
-from argon2.low_level import Type, hash_secret_raw #para usar a função de hash do Argon2
 from pathlib import Path
+from argon2.low_level import Type, hash_secret_raw #para usar a função de hash do Argon2
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 
@@ -32,6 +32,9 @@ def abrir_cofre(senha_mestre):
 
     chave = gerar_chave(senha_mestre, salt)
     dados = AESGCM(chave).decrypt(nonce, cifrado, None)
+    credenciais = json.loads(dados.decode("utf-8"))
+
+    return credenciais
 
 if __name__ == "__main__":
     from getpass import getpass
