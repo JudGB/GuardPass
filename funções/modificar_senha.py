@@ -122,6 +122,7 @@ def modificar_senhas(credenciais):
                     nova_data_e = nova_data_c + timedelta(days=30)
                 except (ValueError, OverflowError):
                     print("Digite uma data válida que permita calcular a expiração.")
+                    return
 
                 credenciais[modificar]['data_c'] = nova_data_c.strftime("%d/%m/%Y")
                 credenciais[modificar]['data_e'] = nova_data_e .strftime("%d/%m/%Y")
