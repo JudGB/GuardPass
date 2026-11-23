@@ -3,7 +3,7 @@ from pathlib import Path
 from getpass import getpass
 from secrets import token_bytes
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from cofre import gerar_chave
+from GuardPass.testes.cofre import gerar_chave
 
 credenciais = {
     "GitHub": {
