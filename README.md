@@ -357,6 +357,19 @@ flowchart TD
 
 ---
 
+### Backup e restauração do cofre
+O GuardPass armazena todas as credenciais no arquivo cofre/guardpass.bin, criado no primeiro uso. A cópia desse arquivo contém os dados salvos até o momento do backup e permanece criptografada com a senha mestra do cofre.
+
+Fazer backup
+1. Feche o GuardPass pela opção 0 - Sair.
+2. Copie cofre/guardpass.bin para um local privado fora da pasta do projeto, como um pendrive. Repita a cópia após alterações que deseja preservar.
+Restaurar um backup
+1. Com o GuardPass fechado, abra a pasta cofre/ da instalação de destino. Se já houver um guardpass.bin, guarde uma cópia dele antes de continuar. A restauração substitui todas as credenciais da instalação pelas da cópia escolhida.
+2. Coloque o arquivo de backup nessa pasta com o nome guardpass.bin.
+3. Execute python main.py na raiz do projeto e digite a senha mestra usada no cofre do backup. Use a opção 2 - Buscar senha para conferir uma credencial restaurada.
+
+---
+
 ## Limitações conhecidas
 
 Por se tratar de um projeto acadêmico, aplicam-se as seguintes limitações:
