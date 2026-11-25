@@ -8,7 +8,7 @@ from datetime import date
 
 def modificar_senhas(credenciais):
 
-    senha_mestre = getpass("Digite a senha mestra para modificar: ", echo_char="*")
+    senha_mestre = getpass("\nDigite a senha mestra para modificar: ", echo_char="*")
     
     try:
         credenciais, chave, salt = carregar_cofre(senha_mestre)
@@ -20,18 +20,23 @@ def modificar_senhas(credenciais):
         return
 
     while True:
-        print("sistemas ou apps cadastrados: ")
+        print("\nsistemas ou apps cadastrados: ")
         if not credenciais:
             print("Nenhum app ou sistema cadastrado.")
             sleep(2) #pausa de 2 segundos
             break
 
         for i in credenciais.keys():
-            print(i)
+            print(f"- {i}")
 
-        modificar = input("Digite o nome do app ou sistema que deseja modificar: ")
+        modificar = input("\nDigite o nome do app ou sistema que deseja modificar: ")
 
-        if not modificar:
+        if modificar == "0":
+            print("Voltando...")
+            sleep(2) #pausa de 2 segundos
+            break
+    
+        elif not modificar:
             print("Digite um nome para identificar a conta.")
             sleep(2) #pausa de 2 segundos
             return
@@ -39,6 +44,7 @@ def modificar_senhas(credenciais):
             print("App ou sistema não cadastrado.")
             sleep(2) #pausa de 2 segundos
             return
+        
         
 
         print("1 - Modificar login")

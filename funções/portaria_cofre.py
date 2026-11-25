@@ -11,7 +11,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 def iniciar_guardpass():
     if ARQUIVO_COFRE.exists():
-        senha_mestre = getpass("Digite a senha mestra para entrar: ")
+        senha_mestre = getpass("\nDigite a senha mestra para entrar: ", echo_char="*")
         return abrir_cofre(senha_mestre)
 
     print("Primeiro acesso ao GuardPass.")

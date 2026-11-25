@@ -9,7 +9,7 @@ from cofre.cofre_definitivo import carregar_cofre, salvar_cofre
 
 def remover_apps(credenciais):
 
-    senha_mestre = getpass("Digite a senha mestra para remover: ", echo_char="*")
+    senha_mestre = getpass("\nDigite a senha mestra para remover: ", echo_char="*")
 
     try:
         credenciais, chave, salt = carregar_cofre(senha_mestre)
@@ -21,16 +21,16 @@ def remover_apps(credenciais):
         return
 
     while True:
-        print("sistemas ou apps cadastrados: ")
+        print("\nsistemas ou apps cadastrados: ")
         if not credenciais:
             print("Nenhum app ou sistema cadastrado.")
             sleep(2) #pausa de 2 segundos
             break
 
         for i in credenciais.keys():
-            print(i)
+            print(f"- {i}")
 
-        remover = input("Digite o nome do app ou sistema que deseja remover: ")
+        remover = input("\nDigite o nome do app ou sistema que deseja remover: ")
         if remover in credenciais:
             credenciais.pop(remover, None)
             try:
